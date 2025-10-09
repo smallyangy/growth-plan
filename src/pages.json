@@ -1,21 +1,16 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"des": "pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages",
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "房小团"
+				"navigationBarTitleText": "首页"
 			}
 		},
 		{
-			"path": "pages/test/word",
+			"path": "pages/index/word",
 			"style": {
-				"navigationBarTitleText": "测试"
-			}
-		},
-		{
-			"path": "pages/test/index",
-			"style": {
-				"navigationBarTitleText": "测试"
+				"navigationBarTitleText": "文字学习"
 			}
 		}
 	],

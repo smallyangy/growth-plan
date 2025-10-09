@@ -1,6 +1,6 @@
 <template>
     <view class="page">
-        <view class="title">欢迎进入房小团</view>
+        <view class="title">欢迎进入果果成长空间</view>
         <view class="loading-wrpper">
             <!-- 补充一个点点点loading的动画 -->
             <view class="loading">
