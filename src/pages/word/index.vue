@@ -80,12 +80,11 @@
             mask: true,
         });
         try {
-            // 尝试从本地缓存获取字库
-            const cachedWordJson = await hanziDB.get('wordJson');
-            console.log(cachedWordJson);
-            if (cachedWordJson) {
-                // 有缓存时直接使用缓存
-                wordJson.value = cachedWordJson;
+            // 检查是否已有完整字库标记
+            const hasCompleteLibrary = await hanziDB.get('hasCompleteLibrary');
+            if (hasCompleteLibrary) {
+                // 已缓存完整字库，无需再次下载
+                initWriter();
             } else {
                 const [res1, res2] = await Promise.all([
                     // 请求缺失字库
@@ -98,12 +97,14 @@
                     ),
                 ]);
                 // 存储字库
-                wordJson.value = { ...res1.data, ...res2.data };
-                // 存储到IndexedDB
-                await hanziDB.set('wordJson', wordJson.value);
+                const fullDictionary = { ...res1.data, ...res2.data };
+                // 批量存储到IndexedDB
+                await hanziDB.bulkSetChars(fullDictionary);
+                // 设置完整字库标记
+                await hanziDB.set('hasCompleteLibrary', true);
                 // 初始化hanzi-writer
+                initWriter();
             }
-            initWriter();
         } catch (err) {
             console.log(err);
             initWriter();
@@ -125,27 +126,31 @@
             // 重写加载字库方法
             charDataLoader: async char => {
                 if (!char) return;
-                if (wordJson.value[char]) {
-                    return wordJson.value[char];
-                } else {
-                    uni.showLoading({
-                        title: '检索中',
-                        mask: true,
+
+                // 从缓存获取汉字数据
+                const cachedData = await hanziDB.getChar(char);
+
+                if (cachedData) {
+                    return cachedData;
+                }
+                // 缓存未命中时从网络获取
+                uni.showLoading({
+                    title: '检索中',
+                    mask: true,
+                });
+                try {
+                    const res = await axios.get(
+                        `https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0/${char}.json`,
+                    );
+                    return res.data;
+                } catch (err) {
+                    uni.showToast({
+                        title: '检索失败，请重试',
+                        icon: 'none',
                     });
-                    try {
-                        const res2 = await axios.get(
-                            `https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0/${char}.json`,
-                        );
-                        return res2.data;
-                    } catch (err) {
-                        uni.showToast({
-                            title: '检索失败，请重试',
-                            icon: 'none',
-                        });
-                        console.log(err);
-                    } finally {
-                        uni.hideLoading();
-                    }
+                    console.log(err);
+                } finally {
+                    uni.hideLoading();
                 }
             },
         });
