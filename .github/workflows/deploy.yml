@@ -9,7 +9,7 @@ on:
 
 # 设置权限，允许actions-gh-pages访问GitHub Pages
 permissions:
-  contents: read
+  contents: write  # 改为write权限
   pages: write
   id-token: write
 
@@ -20,6 +20,8 @@ jobs:
       # 检出代码
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 确保获取所有历史记录
 
       # 设置Node.js环境
       - name: Setup Node.js
@@ -43,4 +45,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
-          force_orphan: true
+          # 移除force_orphan选项以避免权限问题

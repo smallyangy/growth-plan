@@ -9,7 +9,6 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
 *.local
 
 # Editor directories and files
@@ -19,3 +18,9 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# 只在本地开发时忽略dist目录，CI环境需要使用它
+# 移除这行: /dist
+# 改为以下内容（如果您使用的是bash）
+# !/.gitignore
+# echo "/dist" >> .gitignore.local
