@@ -1,0 +1,32 @@
+{
+    // 自动保存并修复格式
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit"
+    },
+    "stylelint.validate": ["css", "less", "postcss", "scss", "vue", "sass"],
+    
+    // 让中文注释显示在代码提示中
+    // "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+    // "typescript.inlayHints.variableTypes.enabled": true,
+    // "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+    // "typescript.inlayHints.parameterTypes.enabled": true,
+    // "typescript.inlayHints.enumMemberValues.enabled": true,
+    // "typescript.inlayHints.parameterNames.enabled": "all",
+    // "typescript.inlayHints.stringLiterals.enabled": true,
+    
+    // 确保IntelliSense能够读取并显示中文注释
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": true,
+        "strings": true
+    },
+    
+    // 配置TypeScript服务器以正确处理中文注释
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+    "typescript.tsserver.useSeparateSyntaxServer": "always",
+    "typescript.preferences.includePackageJsonAutoImports": "on",
+    
+    // 设置语言环境为中文
+    "typescript.locale": "zh-CN"
+}

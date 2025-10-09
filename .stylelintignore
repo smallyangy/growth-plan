@@ -1,0 +1,41 @@
+# 忽略node_modules目录
+node_modules/
+
+# 忽略构建输出目录
+dist/
+build/
+
+# 忽略压缩文件
+*.min.css
+
+# 忽略第三方库
+lib/
+
+# 忽略测试文件
+__tests__/
+*.test.js
+
+# 忽略临时文件
+*.tmp
+*.temp
+.cache/
+
+# 忽略IDE配置文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 忽略操作系统文件
+.DS_Store
+Thumbs.db
+
+# 忽略文档
+docs/
+
+# 忽略ESLint配置文件
+.eslintrc.js
+.eslintrc.cjs
+
+# 忽略TypeScript配置文件
+tsconfig.json
