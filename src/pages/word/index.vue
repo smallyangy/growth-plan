@@ -63,6 +63,7 @@
     import { onMounted } from 'vue';
     import { ref } from 'vue';
     import axios from 'axios';
+    import { hanziDB } from './storage';
 
     const writer = ref<any>(null);
     const text = ref('');
@@ -79,22 +80,33 @@
             mask: true,
         });
         try {
-            const [res1, res2] = await Promise.all([
-                // 请求缺失字库
-                axios.get(
-                    'https://imgcdn.huanjutang.com/internal/file/20250926/d3atqcuthvulbl9ptg20.json',
-                ),
-                // 所有字库
-                axios.get(
-                    'https://imgcdn.huanjutang.com/internal/file/20250925/d3ags3uthvulbl9ptg0g.json',
-                ),
-            ]);
-            // 存储字库
-            wordJson.value = { ...res1.data, ...res2.data };
-            // 初始化hanzi-writer
+            // 尝试从本地缓存获取字库
+            const cachedWordJson = await hanziDB.get('wordJson');
+            console.log(cachedWordJson);
+            if (cachedWordJson) {
+                // 有缓存时直接使用缓存
+                wordJson.value = cachedWordJson;
+            } else {
+                const [res1, res2] = await Promise.all([
+                    // 请求缺失字库
+                    axios.get(
+                        'https://imgcdn.huanjutang.com/internal/file/20250926/d3atqcuthvulbl9ptg20.json',
+                    ),
+                    // 所有字库
+                    axios.get(
+                        'https://imgcdn.huanjutang.com/internal/file/20250925/d3ags3uthvulbl9ptg0g.json',
+                    ),
+                ]);
+                // 存储字库
+                wordJson.value = { ...res1.data, ...res2.data };
+                // 存储到IndexedDB
+                await hanziDB.set('wordJson', wordJson.value);
+                // 初始化hanzi-writer
+            }
             initWriter();
         } catch (err) {
             console.log(err);
+            initWriter();
         } finally {
             uni.hideLoading();
         }
