@@ -313,6 +313,8 @@
 
     #character-target-div {
         border: 4rpx dashed #dcdfe6;
+        width: 400rpx;
+        height: 400rpx;
 
         svg {
             display: block;
