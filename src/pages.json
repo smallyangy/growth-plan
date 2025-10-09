@@ -8,7 +8,7 @@
 			}
 		},
 		{
-			"path": "pages/index/word",
+			"path": "pages/word/index",
 			"style": {
 				"navigationBarTitleText": "文字学习"
 			}

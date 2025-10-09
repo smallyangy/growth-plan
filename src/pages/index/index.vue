@@ -41,7 +41,7 @@
     const appList = [
         {
             name: '文字学习',
-            path: '/pages/index/word',
+            path: '/pages/word/index',
             icon: 'https://imgcdn.huanjutang.com/internal/image/20251009/d3jlrauthvulbl9pth30.png',
         },
         {
