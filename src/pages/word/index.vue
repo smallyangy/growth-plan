@@ -18,14 +18,19 @@
         <div class="count-wrapper">{{ textIndex }} / {{ textLength }}</div>
         <div class="operate">
             <div class="input-wrapper">
-                内容：
                 <input
                     v-model="text"
                     class="word-input"
                     type="text"
-                    placeholder="请输入整句，不含标点"
+                    placeholder="请输入整句话，不含标点"
                     @change="updateWords"
                 />
+                <!-- 清除按钮 -->
+                <div
+                    v-if="text"
+                    class="btn-clear"
+                    @click="clearText"
+                ></div>
                 <div
                     class="btn-create"
                     @click="updateWords"
@@ -35,7 +40,6 @@
             </div>
 
             <div class="middle-btns">
-                <!-- <div @click="handlePrev">上一步</div> -->
                 <div @click="handleRePlay">重复笔画</div>
                 <div @click="handleNext">一笔一划</div>
             </div>
@@ -72,8 +76,6 @@
     const wordSize = ref(uni.upx2px(400));
     const isDraw = ref(false);
 
-    const wordJson = ref<any>({});
-
     onMounted(async () => {
         uni.showLoading({
             title: '加载中',
@@ -87,7 +89,7 @@
                 initWriter();
             } else {
                 const [res1, res2] = await Promise.all([
-                    // 请求缺失字库
+                    // 缺失字库
                     axios.get(
                         'https://imgcdn.huanjutang.com/internal/file/20250926/d3atqcuthvulbl9ptg20.json',
                     ),
@@ -174,6 +176,14 @@
         drawWord();
     };
 
+    // 清除输入内容
+    const clearText = () => {
+        text.value = '';
+        textIndex.value = 0;
+        textLength.value = 0;
+        drawWord();
+    };
+
     const drawWord = () => {
         wordDrawStep = -1;
         writer.value.setCharacter(text.value[textIndex.value - 1]);
@@ -255,14 +265,20 @@
     .page {
         padding: 32rpx;
         padding-top: 100rpx;
-        // min-height: 100vh;
-        // background: #3d3d3d;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        background-size: cover;
+        background-attachment: fixed;
+        box-sizing: border-box;
     }
 
     #character-target-div {
-        border: 4rpx dashed #dcdfe6;
+        border: 4rpx dashed #ff9fb3;
         width: 400rpx;
         height: 400rpx;
+        background-color: #fff;
+        border-radius: 20rpx;
+        box-shadow: 0 4rpx 20rpx rgb(255 159 179 / 0.15);
 
         svg {
             display: block;
@@ -275,23 +291,23 @@
         justify-content: center;
         position: relative;
         gap: 32rpx;
-
-        #grid-background-target {
-            position: absolute;
-            top: -20rpx;
-            left: 50%;
-            margin-left: -200rpx;
-            border: 1rpx solid #ddd;
-        }
+        margin-bottom: 40rpx;
 
         .btn-switch {
             width: 60rpx;
             height: 60rpx;
             opacity: 0.8;
             display: block;
-            background: rgb(black, 0.1);
-            border-radius: 10rpx;
+            background-color: #fff;
+            border-radius: 16rpx;
             padding: 16rpx;
+            box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+
+            // &:hover {
+            //     transform: scale(1.1) rotate($(img-left ? 180 : 0)deg);
+            //     box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.15);
+            // }
 
             &.img-left {
                 transform: rotate(180deg);
@@ -306,12 +322,21 @@
 
     .count-wrapper {
         font-size: 28rpx;
-        color: rgb(black, 0.85);
+        color: #ff6b95;
         text-align: center;
+        font-weight: 500;
+        margin-bottom: 40rpx;
+        background-color: rgb(255 255 255 / 0.8);
+        display: inline-block;
+        padding: 8rpx 20rpx;
+        border-radius: 20rpx;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     .operate {
-        margin-top: 64rpx;
+        margin-top: 40rpx;
     }
 
     .input-wrapper {
@@ -321,31 +346,66 @@
         font-size: 32rpx;
         gap: 20rpx;
         color: rgb(black, 0.85);
+        position: relative;
+        margin-bottom: 48rpx;
 
         .word-input {
-            border: 1rpx solid #dcdfe6;
-            border-radius: 10rpx;
+            border: 2rpx solid #ffccd5;
+            border-radius: 16rpx;
             padding: 0 20rpx;
-            width: 400rpx;
-            height: 70rpx;
+            height: 80rpx;
             box-sizing: border-box;
+            flex: 1;
+            font-size: 28rpx;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            outline: none;
+
+            &:focus {
+                border-color: #ff6b95;
+                box-shadow: 0 0 0 6rpx rgb(255 107 149 / 0.1);
+            }
+        }
+
+        .btn-clear {
+            background: url('https://imgcdn.huanjutang.com/internal/image/20251009/d3jnlquthvulbl9pth40.png')
+                no-repeat center center / 60% 60%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 140rpx;
+            width: 80rpx;
+            height: 80rpx;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-50%) scale(1.1);
+            }
         }
 
         .btn-create {
             font-size: 28rpx;
-            background: #409eff;
-            height: 70rpx;
-            border-radius: 8rpx;
+            background: linear-gradient(135deg, #ff6b95 0%, #ff8fa3 100%);
+            height: 80rpx;
+            border-radius: 16rpx;
             color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0 30rpx;
             font-weight: bold;
-        }
+            box-shadow: 0 4rpx 15rpx rgb(255 107 149 / 0.3);
+            transition: all 0.3s ease;
 
-        .btn-remove {
-            background: #f56c6c;
+            &:hover {
+                transform: translateY(-2rpx);
+                box-shadow: 0 6rpx 20rpx rgb(255 107 149 / 0.4);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: 0 2rpx 10rpx rgb(255 107 149 / 0.2);
+            }
         }
     }
 
@@ -354,14 +414,25 @@
         align-items: center;
         justify-content: center;
         gap: 32rpx;
-        margin-top: 64rpx;
+        margin-top: 48rpx;
+        margin-bottom: 64rpx;
 
         div {
-            font-size: 24rpx;
-            border: 1rpx solid #67c23a;
+            font-size: 26rpx;
+            background: linear-gradient(135deg, #ffedeb 0%, #fff 100%);
+            border: 2rpx solid #ff6b95;
             padding: 20rpx 40rpx;
-            border-radius: 8rpx;
-            color: #333;
+            border-radius: 16rpx;
+            color: #ff6b95;
+            font-weight: 500;
+            transition: all 0.3s ease;
+
+            // &:hover {
+            //     background: linear-gradient(135deg, #ff6b95 0%, #ff8fa3 100%);
+            //     color: #fff;
+            //     transform: translateY(-2rpx);
+            //     box-shadow: 0 4rpx 15rpx rgb(255 107 149 / 0.3);
+            // }
         }
     }
 
@@ -370,32 +441,35 @@
         justify-content: center;
         align-items: center;
         gap: 64rpx;
-        margin-top: 64rpx;
+        margin-top: 48rpx;
     }
 
     .btn-start {
         font-size: 34rpx;
         font-weight: bold;
-        width: 180rpx;
-        height: 180rpx;
+        width: 200rpx;
+        height: 200rpx;
         border-radius: 50%;
         background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-        border: 4rpx solid #ff6b6b;
+        border: 6rpx solid #fff;
         display: flex;
         justify-content: center;
         align-items: center;
         color: #fff;
         text-shadow: 0 2rpx 4rpx rgb(0 0 0 / 0.2);
-        box-shadow: 0 8rpx 20rpx rgb(255 107 107 / 0.3);
+        box-shadow:
+            0 10rpx 25rpx rgb(255 154 158 / 0.3),
+            0 0 0 2rpx rgb(255 154 158 / 0.1);
         cursor: pointer;
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
 
         &.test {
-            // 颜色修改成其他风格颜色
-            background: linear-gradient(135deg, #409eff 0%, #66bfff 100%);
-            border-color: #409eff;
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            box-shadow:
+                0 10rpx 25rpx rgb(132 250 176 / 0.3),
+                0 0 0 2rpx rgb(132 250 176 / 0.1);
         }
     }
 
@@ -414,20 +488,29 @@
         left: 100%;
     }
 
-    .btn-start:active {
-        transform: scale(0.95);
-        box-shadow: 0 4rpx 10rpx rgb(255 107 107 / 0.2);
+    .btn-start:hover {
+        transform: translateY(-4rpx);
+        box-shadow:
+            0 14rpx 30rpx rgb(255 154 158 / 0.4),
+            0 0 0 2rpx rgb(255 154 158 / 0.15);
     }
 
-    .history-list {
-        margin-top: 100rpx;
-        display: flex;
-        gap: 10rpx;
+    .btn-start.test:hover {
+        box-shadow:
+            0 14rpx 30rpx rgb(132 250 176 / 0.4),
+            0 0 0 2rpx rgb(132 250 176 / 0.15);
+    }
 
-        .list-item {
-            color: #409eff;
-            text-decoration: underline;
-            margin: 0 20rpx;
-        }
+    .btn-start:active {
+        transform: scale(0.95) translateY(0);
+        box-shadow:
+            0 6rpx 15rpx rgb(255 154 158 / 0.2),
+            0 0 0 2rpx rgb(255 154 158 / 0.1);
+    }
+
+    .btn-start.test:active {
+        box-shadow:
+            0 6rpx 15rpx rgb(132 250 176 / 0.2),
+            0 0 0 2rpx rgb(132 250 176 / 0.1);
     }
 </style>
