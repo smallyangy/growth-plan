@@ -12,6 +12,12 @@
 			"style": {
 				"navigationBarTitleText": "文字学习"
 			}
+		},
+		{
+			"path": "pages/game/linggu",
+			"style": {
+				"navigationBarTitleText": "领鼓游戏"
+			}
 		}
 	],
 	"networkTimeout": {

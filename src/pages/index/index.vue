@@ -45,6 +45,11 @@
             icon: 'https://imgcdn.huanjutang.com/internal/image/20251009/d3jlrauthvulbl9pth30.png',
         },
         {
+            name: '领鼓游戏',
+            path: '/pages/game/linggu',
+            icon: 'https://imgcdn.huanjutang.com/internal/image/20251009/d3jo7guthvulbl9pth50.png',
+        },
+        {
             name: '敬请期待',
             path: '',
             icon: 'https://imgcdn.huanjutang.com/internal/image/20251009/d3jlrauthvulbl9pth3g.png',
@@ -74,7 +79,7 @@
         background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
         display: flex;
         flex-direction: column;
-        padding: 40rpx 20rpx;
+        padding: 32rpx;
         box-sizing: border-box;
         position: relative;
         overflow: hidden;
@@ -178,16 +183,15 @@
     .app-list {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
-        gap: 60rpx; // 更大的间距
-        flex: 1;
+        justify-content: space-between;
+        gap: 32rpx; // 更大的间距
         position: relative;
         z-index: 1;
     }
 
     .app-item {
-        width: 320rpx; // 更大的卡片
-        height: 320rpx;
+        width: 327rpx; // 更大的卡片
+        height: 327rpx;
         background: rgb(255 255 255 / 0.95);
         border-radius: 32rpx; // 更大的圆角
         display: flex;
@@ -200,6 +204,7 @@
         cursor: pointer;
         // 添加粉色边框增加可爱感
         border: 4rpx solid $secondary-color;
+        box-sizing: border-box;
     }
 
     .app-item:hover {
