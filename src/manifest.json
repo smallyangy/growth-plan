@@ -9,7 +9,7 @@
         "title": "果果成长计划",
         "router": {
             "mode": "history",
-            "base": "/"
+            "base": "/growth-plan/"
         },
         "async": {
             "delay": 10000
