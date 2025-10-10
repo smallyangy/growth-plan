@@ -58,6 +58,7 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-4030620241128001",
     "@dcloudio/uni-mp-xhs": "3.0.0-4030620241128001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-4030620241128001",
+    "@icon-park/vue-next": "^1.4.2",
     "axios": "^1.12.2",
     "crypto-js": "^4.2.0",
     "hanzi-writer": "^3.7.3",

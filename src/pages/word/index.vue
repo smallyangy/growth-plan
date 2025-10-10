@@ -14,6 +14,12 @@
                 :class="{ disabled: !text || !isDraw }"
                 @click="handelNext"
             />
+            <!-- <right
+                theme="outline"
+                size="48rpx"
+                fill="#cccccc"
+                :strokeWidth="3"
+            /> -->
         </div>
         <div class="count-wrapper">{{ textIndex }} / {{ textLength }}</div>
         <div class="operate">
@@ -68,6 +74,7 @@
     import { ref } from 'vue';
     import axios from 'axios';
     import { hanziDB } from './storage';
+    import { Right } from '@icon-park/vue-next';
 
     const writer = ref<any>(null);
     const text = ref('');
