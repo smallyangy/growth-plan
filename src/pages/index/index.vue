@@ -183,7 +183,6 @@
     .app-list {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
         gap: 32rpx; // 更大的间距
         position: relative;
         z-index: 1;
