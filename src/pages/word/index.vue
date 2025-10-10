@@ -156,7 +156,10 @@
                 }
             },
         });
-
+        uni.showToast({
+            title: '字库初始化完成',
+            icon: 'none',
+        });
         console.log(writer.value);
     };
 
