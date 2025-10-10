@@ -18,6 +18,12 @@
 			"style": {
 				"navigationBarTitleText": "领鼓游戏"
 			}
+		},
+		{
+			"path": "pages/math/base",
+			"style": {
+				"navigationBarTitleText": "基础运算"
+			}
 		}
 	],
 	"networkTimeout": {

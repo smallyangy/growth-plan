@@ -45,6 +45,11 @@
             icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100838367.png',
         },
         {
+            name: '基础运算',
+            path: '/pages/math/base',
+            icon: 'https://smallyangy.github.io/myImgs/docImgs/202510101417966.png',
+        },
+        {
             name: '领鼓游戏',
             path: '/pages/game/linggu',
             icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100837439.png',
