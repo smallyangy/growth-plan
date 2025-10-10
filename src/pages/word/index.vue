@@ -2,14 +2,14 @@
     <div class="page">
         <div class="word-wrapper">
             <img
-                src="https://imgcdn.huanjutang.com/internal/image/20250728/d23j8l6thvus68vik7ag.png"
+                src="https://smallyangy.github.io/myImgs/docImgs/202510100851204.png"
                 class="btn-switch img-left"
                 :class="{ disabled: !text || !isDraw }"
                 @click="handlePrev"
             />
             <div id="character-target-div"></div>
             <img
-                src="https://imgcdn.huanjutang.com/internal/image/20250728/d23j8l6thvus68vik7ag.png"
+                src="https://smallyangy.github.io/myImgs/docImgs/202510100851204.png"
                 class="btn-switch img-right"
                 :class="{ disabled: !text || !isDraw }"
                 @click="handelNext"
@@ -90,11 +90,10 @@
             } else {
                 const [res1, res2] = await Promise.all([
                     // 缺失字库
+                    axios.get('https://smallyangy.github.io/myImgs/docImgs/202510100856450.json'),
+                    // 所有字库 https://smallyangy.github.io/myImgs/docImgs/202510100857464.json
                     axios.get(
-                        'https://imgcdn.huanjutang.com/internal/file/20250926/d3atqcuthvulbl9ptg20.json',
-                    ),
-                    // 所有字库
-                    axios.get(
+                        // 备份地址：'https://smallyangy.github.io/myImgs/docImgs/202510100857464.json',
                         'https://imgcdn.huanjutang.com/internal/file/20250925/d3ags3uthvulbl9ptg0g.json',
                     ),
                 ]);
@@ -371,7 +370,7 @@
         }
 
         .btn-clear {
-            background: url('https://imgcdn.huanjutang.com/internal/image/20251009/d3jnlquthvulbl9pth40.png')
+            background: url('https://smallyangy.github.io/myImgs/docImgs/202510100906037.png')
                 no-repeat center center / 60% 60%;
             position: absolute;
             top: 50%;

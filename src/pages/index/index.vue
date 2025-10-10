@@ -42,17 +42,17 @@
         {
             name: '文字学习',
             path: '/pages/word/index',
-            icon: 'https://imgcdn.huanjutang.com/internal/image/20251009/d3jlrauthvulbl9pth30.png',
+            icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100838367.png',
         },
         {
             name: '领鼓游戏',
             path: '/pages/game/linggu',
-            icon: 'https://imgcdn.huanjutang.com/internal/image/20251009/d3jo7guthvulbl9pth50.png',
+            icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100837439.png',
         },
         {
             name: '敬请期待',
             path: '',
-            icon: 'https://imgcdn.huanjutang.com/internal/image/20251009/d3jlrauthvulbl9pth3g.png',
+            icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100838290.png',
         },
     ];
 

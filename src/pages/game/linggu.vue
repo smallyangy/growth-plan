@@ -53,42 +53,52 @@
     const actionSounds = [
         {
             name: 'moerduo',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100853150.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/a96c8a6e52b7d5680b43ec83ca2cf0ea.mp3',
         },
         {
             name: 'mobozi',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100909674.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/5d381de8236f81929e6c9cd54601f7d8.mp3',
         },
         {
             name: 'mobizi',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100910568.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/b45c0ba2709e86c6c2a0f0a8adb57cb2.mp3',
         },
         {
             name: 'mozuizui',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100911955.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/632dce56fee38be9aa2de43b5e185d04.mp3',
         },
         {
             name: 'moyanjing',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100912905.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/26c3bc8b1633b6d99d0e17d51522be57.mp3',
         },
         {
             name: 'motuitui',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100914688.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/5c38b6b5031ae1ad358cadcba433127e.mp3',
         },
         {
             name: 'motou',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100915765.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/7335983cac1eadeac2a516ae7e7c4b6a.mp3',
         },
         {
             name: 'moshoushou',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100915976.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/3bc568f388856527265a85f8436268fc.mp3',
         },
         {
             name: 'molianlian',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100916203.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/c841a32876051c31477a3754f69b5b76.mp3',
         },
         {
             name: 'mojianbang',
+            // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100917740.mp3
             src: 'https://imgcdn.huanjutang.com/image/2023/08/26/8474bbdf9d1e259824488f9f1d612662.mp3',
         },
     ];
@@ -100,6 +110,7 @@
     };
 
     const endActionSound = createAudio(
+        // 备份地址：https://smallyangy.github.io/myImgs/docImgs/202510100918954.mp3
         'https://imgcdn.huanjutang.com/image/2023/08/26/587c423328e18b88bbe84a5eac4c5a8f.mp3',
     );
     const actionSoundsArr = [];
