@@ -255,6 +255,8 @@
 </script>
 
 <style>
+    /* stylelint-disable unit-allowed-list */
+
     /* Claymorphism 游戏页 — 与全局主题统一 */
     * {
         margin: 0;
