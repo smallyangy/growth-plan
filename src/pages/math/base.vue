@@ -78,7 +78,7 @@
                     class="btn-generate"
                     @click="generateQuestion"
                 >
-                    👏🏻 生成题目
+                    生成题目
                 </button>
             </view>
 
@@ -92,7 +92,7 @@
                     class="btn-check"
                     @click="showResult = true"
                 >
-                    🔍 查看答案
+                    查看答案
                 </button>
             </view>
         </view>
@@ -110,7 +110,7 @@
                 class="btn-next"
                 @click="generateQuestion"
             >
-                ➡️ 下一题
+                下一题
             </button>
         </view>
 
@@ -337,82 +337,92 @@
 </script>
 
 <style lang="scss">
-    // 定义可爱粉嫩的主题色
-    $primary-color: #ff85a1; // 柔和的粉色作为主色调
-    $secondary-color: #ffbdc8; // 浅粉色作为辅助色
-    $accent-color: #ffd9e1; // 超浅粉色作为强调色
-    $dark-color: #c25a70; // 深粉色用于文字
-    $light-color: #fff9fb; // 浅粉色背景
-    $success-color: #8dd1a6; // 成功色（绿色系）
+    // Claymorphism 主题色 — 与全局统一
+    $primary: #ff85a1;
+    $primary-dark: #c25a70;
+    $secondary: #ffbdc8;
+    $bg: #fff0f3;
+    $bg-end: #ffe4ec;
+    $text-main: #3d1a26;
+    $text-sub: #c25a70;
+    $success: #6ec89b;
+    $success-dark: #3da06a;
 
     .page {
         min-height: 100vh;
-        // 使用可爱的粉色渐变背景
-        background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+        background: linear-gradient(160deg, $bg 0%, $bg-end 100%);
         display: flex;
         flex-direction: column;
         padding: 32rpx;
         box-sizing: border-box;
         position: relative;
         overflow: hidden;
+        touch-action: manipulation;
     }
 
-    // 添加装饰元素，增加可爱感
+    // Claymorphism 装饰球
     .decoration {
         position: absolute;
         border-radius: 50%;
-        opacity: 0.6;
         z-index: 0;
     }
 
     .decoration.top-left {
-        top: 5%;
-        left: 5%;
-        width: 200rpx;
-        height: 200rpx;
-        background-color: $accent-color;
+        top: 4%;
+        left: 4%;
+        width: 180rpx;
+        height: 180rpx;
+        background: radial-gradient(circle at 35% 35%, #ffeef3, $secondary);
+        box-shadow:
+            inset -4rpx -4rpx 12rpx rgb(194 90 112 / 0.2),
+            6rpx 6rpx 16rpx rgb(255 133 161 / 0.3);
         animation: float 8s ease-in-out infinite;
     }
 
     .decoration.top-right {
-        top: 10%;
-        right: 8%;
-        width: 150rpx;
-        height: 150rpx;
-        background-color: $secondary-color;
+        top: 8%;
+        right: 6%;
+        width: 130rpx;
+        height: 130rpx;
+        background: radial-gradient(circle at 35% 35%, #fff4e6, #ffc9a0);
+        box-shadow:
+            inset -3rpx -3rpx 10rpx rgb(200 100 50 / 0.2),
+            5rpx 5rpx 14rpx rgb(255 180 120 / 0.3);
         animation: float 10s ease-in-out infinite reverse;
     }
 
     .decoration.bottom-left {
-        bottom: 15%;
-        left: 10%;
-        width: 250rpx;
-        height: 250rpx;
-        background-color: $primary-color;
+        bottom: 14%;
+        left: 8%;
+        width: 220rpx;
+        height: 220rpx;
+        background: radial-gradient(circle at 35% 35%, #e8ffe8, #a0e8b0);
+        box-shadow:
+            inset -5rpx -5rpx 14rpx rgb(50 160 80 / 0.15),
+            7rpx 7rpx 20rpx rgb(100 200 120 / 0.25);
         animation: float 12s ease-in-out infinite;
     }
 
     .decoration.bottom-right {
-        bottom: 8%;
-        right: 5%;
-        width: 180rpx;
-        height: 180rpx;
-        background-color: $accent-color;
+        bottom: 6%;
+        right: 4%;
+        width: 160rpx;
+        height: 160rpx;
+        background: radial-gradient(circle at 35% 35%, #e8f4ff, #a8d8ff);
+        box-shadow:
+            inset -4rpx -4rpx 12rpx rgb(50 100 200 / 0.15),
+            6rpx 6rpx 16rpx rgb(100 160 255 / 0.25);
         animation: float 9s ease-in-out infinite reverse;
     }
 
-    // 浮动动画
     @keyframes float {
-        0% {
+        0%,
+        100% {
             transform: translateY(0) rotate(0deg);
         }
 
         50% {
-            transform: translateY(-30rpx) rotate(5deg);
-        }
-
-        100% {
-            transform: translateY(0) rotate(0deg);
+            transform: translateY(-24rpx) rotate(4deg);
         }
     }
 
@@ -425,16 +435,17 @@
     }
 
     .title {
-        font-size: 56rpx; // 更大的字体
-        font-weight: bold;
-        color: $dark-color; // 深粉色标题
-        margin-bottom: 20rpx;
-        text-shadow: 0 4rpx 8rpx rgb(0 0 0 / 0.1);
+        font-size: 52rpx;
+        font-weight: 800;
+        color: $text-main;
+        margin-bottom: 16rpx;
+        letter-spacing: 2rpx;
+        text-shadow: 0 3rpx 0 rgb(194 90 112 / 0.2);
     }
 
     .subtitle {
-        font-size: 32rpx;
-        color: $primary-color; // 粉色副标题
+        font-size: 30rpx;
+        color: $text-sub;
         font-weight: 500;
     }
 
@@ -442,23 +453,26 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        gap: 40rpx;
+        gap: 32rpx;
         position: relative;
         z-index: 1;
     }
 
+    // Claymorphism 卡片
     .section {
-        background: rgb(255 255 255 / 0.9);
+        background: #fff;
         border-radius: 32rpx;
+        border: 4rpx solid $secondary;
         padding: 32rpx;
-        box-shadow: 0 12rpx 36rpx rgb(0 0 0 / 0.1);
-        border: 4rpx solid $secondary-color;
+        box-shadow:
+            inset 0 2rpx 6rpx rgb(255 189 200 / 0.15),
+            0 8rpx 24rpx rgb(255 133 161 / 0.15);
     }
 
     .section-title {
-        font-size: 36rpx;
-        font-weight: bold;
-        color: $dark-color;
+        font-size: 34rpx;
+        font-weight: 700;
+        color: $text-main;
         margin-bottom: 24rpx;
         text-align: center;
     }
@@ -471,26 +485,33 @@
     }
 
     .operator-item {
-        padding: 20rpx;
+        padding: 20rpx 32rpx;
         border-radius: 20rpx;
-        background-color: $light-color;
-        color: $dark-color;
+        background: #fff;
+        color: $text-main;
         font-size: 32rpx;
-        font-weight: 500;
+        font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2rpx solid $secondary-color;
+        border: 3rpx solid $secondary;
+        box-shadow:
+            inset 0 -3rpx 0 $secondary,
+            0 4rpx 10rpx rgb(255 133 161 / 0.1);
+        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        touch-action: manipulation;
     }
 
     .operator-item.active {
-        background-color: $primary-color;
-        color: white;
-        border-color: $primary-color;
-        box-shadow: 0 6rpx 16rpx rgb(255 133 161 / 0.3);
+        background: linear-gradient(145deg, #ffb0c0 0%, $primary 100%);
+        color: #fff;
+        border-color: $primary-dark;
+        box-shadow:
+            inset 0 2rpx 4rpx rgb(255 255 255 / 0.3),
+            inset 0 -3rpx 0 $primary-dark,
+            0 6rpx 16rpx rgb(194 90 112 / 0.25);
     }
 
-    .operator-item:hover {
-        transform: scale(1.05);
+    .operator-item:active {
+        transform: scale(0.94) translateY(2rpx);
     }
 
     .steps-container {
@@ -501,26 +522,33 @@
     }
 
     .step-item {
-        padding: 20rpx;
+        padding: 20rpx 32rpx;
         border-radius: 20rpx;
-        background-color: $light-color;
-        color: $dark-color;
-        font-size: 26rpx;
-        font-weight: 500;
+        background: #fff;
+        color: $text-main;
+        font-size: 28rpx;
+        font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2rpx solid $secondary-color;
+        border: 3rpx solid $secondary;
+        box-shadow:
+            inset 0 -3rpx 0 $secondary,
+            0 4rpx 10rpx rgb(255 133 161 / 0.1);
+        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        touch-action: manipulation;
     }
 
     .step-item.active {
-        background-color: $primary-color;
-        color: white;
-        border-color: $primary-color;
-        box-shadow: 0 6rpx 16rpx rgb(255 133 161 / 0.3);
+        background: linear-gradient(145deg, #ffb0c0 0%, $primary 100%);
+        color: #fff;
+        border-color: $primary-dark;
+        box-shadow:
+            inset 0 2rpx 4rpx rgb(255 255 255 / 0.3),
+            inset 0 -3rpx 0 $primary-dark,
+            0 6rpx 16rpx rgb(194 90 112 / 0.25);
     }
 
-    .step-item:hover {
-        transform: scale(1.05);
+    .step-item:active {
+        transform: scale(0.94) translateY(2rpx);
     }
 
     .button-container {
@@ -533,48 +561,43 @@
     .btn-generate,
     .btn-check,
     .btn-next {
-        width: 320rpx;
-        height: 120rpx;
-        border-radius: 60rpx;
-        font-size: 36rpx;
-        font-weight: bold;
-        border: none;
-        background: linear-gradient(135deg, #ff85a2 0%, #ffb6c1 100%);
-        color: white;
+        min-width: 280rpx;
+        height: 112rpx;
+        border-radius: 56rpx;
+        font-size: 34rpx;
+        font-weight: 700;
+        border: 4rpx solid rgb(255 255 255 / 0.5);
+        background: linear-gradient(145deg, #ffb0c0 0%, $primary 100%);
+        color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0 48rpx;
         box-shadow:
-            0 8rpx 20rpx rgb(255 133 162 / 0.3),
-            0 0 0 4rpx rgb(255 133 162 / 0.2);
-        transition: all 0.3s ease;
+            inset 0 3rpx 6rpx rgb(255 255 255 / 0.3),
+            inset 0 -4rpx 0 $primary-dark,
+            0 8rpx 20rpx rgb(194 90 112 / 0.3);
+        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         cursor: pointer;
-    }
+        touch-action: manipulation;
 
-    .btn-generate:hover,
-    .btn-check:hover,
-    .btn-next:hover {
-        transform: translateY(-4rpx);
-        box-shadow:
-            0 12rpx 25rpx rgb(255 133 162 / 0.4),
-            0 0 0 4rpx rgb(255 133 162 / 0.3);
-    }
-
-    .btn-generate:active,
-    .btn-check:active,
-    .btn-next:active {
-        transform: translateY(0);
-        box-shadow:
-            0 4rpx 15rpx rgb(255 133 162 / 0.2),
-            0 0 0 4rpx rgb(255 133 162 / 0.1);
+        &:active {
+            transform: scale(0.95) translateY(3rpx);
+            box-shadow:
+                inset 0 2rpx 4rpx rgb(255 255 255 / 0.2),
+                inset 0 -2rpx 0 $primary-dark,
+                0 4rpx 10rpx rgb(194 90 112 / 0.2);
+        }
     }
 
     .question-container {
-        background: rgb(255 255 255 / 0.95);
+        background: #fff;
         border-radius: 32rpx;
+        border: 4rpx solid $secondary;
         padding: 40rpx;
-        box-shadow: 0 12rpx 36rpx rgb(0 0 0 / 0.1);
-        border: 4rpx solid $secondary-color;
+        box-shadow:
+            inset 0 2rpx 6rpx rgb(255 189 200 / 0.15),
+            0 8rpx 24rpx rgb(255 133 161 / 0.15);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -584,21 +607,24 @@
     }
 
     .question {
-        font-size: 48rpx;
-        font-weight: bold;
-        color: $dark-color;
+        font-size: 52rpx;
+        font-weight: 800;
+        color: $text-main;
         text-align: center;
         padding: 20rpx;
         min-height: 80rpx;
+        letter-spacing: 4rpx;
     }
 
     .result-container {
         flex: 1;
-        background: rgb(255 255 255 / 0.95);
+        background: #fff;
         border-radius: 32rpx;
+        border: 4rpx solid #b8f0c8;
         padding: 60rpx 40rpx;
-        box-shadow: 0 12rpx 36rpx rgb(0 0 0 / 0.1);
-        border: 4rpx solid $success-color;
+        box-shadow:
+            inset 0 2rpx 6rpx rgb(110 200 155 / 0.1),
+            0 8rpx 24rpx rgb(110 200 155 / 0.2);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -609,28 +635,40 @@
     }
 
     .result-title {
-        font-size: 40rpx;
-        color: $dark-color;
-        font-weight: 500;
+        font-size: 36rpx;
+        color: $text-main;
+        font-weight: 600;
     }
 
     .result {
-        font-size: 80rpx;
-        font-weight: bold;
-        color: $success-color;
-        text-shadow: 0 4rpx 8rpx rgb(141 209 166 / 0.3);
+        font-size: 88rpx;
+        font-weight: 800;
+        color: $success;
+        text-shadow:
+            0 4rpx 0 $success-dark,
+            0 6rpx 12rpx rgb(110 200 155 / 0.3);
+        letter-spacing: 4rpx;
     }
 
     .hint {
         text-align: center;
-        font-size: 32rpx;
-        color: $dark-color;
+        font-size: 30rpx;
+        color: $text-sub;
+        font-weight: 500;
         margin-top: 40rpx;
         position: relative;
         z-index: 1;
+        background: #fff;
+        display: inline-block;
+        padding: 16rpx 40rpx;
+        border-radius: 24rpx;
+        border: 3rpx solid $secondary;
+        box-shadow:
+            inset 0 -2rpx 0 $secondary,
+            0 4rpx 10rpx rgb(255 133 161 / 0.1);
+        align-self: center;
     }
 
-    /* 添加数字最大值输入相关样式 */
     .max-number-container {
         display: flex;
         flex-direction: column;
@@ -640,24 +678,30 @@
 
     .max-number-input {
         width: 200rpx;
-        height: 80rpx;
-        border: 2rpx solid $secondary-color;
-        border-radius: 16rpx;
+        height: 84rpx;
+        border: 3rpx solid $secondary;
+        border-radius: 20rpx;
         padding: 0 20rpx;
-        font-size: 32rpx;
+        font-size: 34rpx;
+        font-weight: 700;
         text-align: center;
         background-color: #fff;
         outline: none;
-        transition: all 0.3s ease;
+        color: $text-main;
+        box-shadow: inset 0 2rpx 4rpx rgb(255 189 200 / 0.15);
+        transition: all 0.2s ease-out;
 
         &:focus {
-            border-color: $primary-color;
-            box-shadow: 0 0 0 6rpx rgb(255 133 161 / 0.1);
+            border-color: $primary;
+            box-shadow:
+                inset 0 2rpx 4rpx rgb(255 133 161 / 0.1),
+                0 0 0 6rpx rgb(255 133 161 / 0.08);
         }
     }
 
     .max-number-hint {
         font-size: 24rpx;
-        color: #999;
+        color: #aaa;
+        font-weight: 500;
     }
 </style>

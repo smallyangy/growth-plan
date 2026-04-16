@@ -71,196 +71,191 @@
 </script>
 
 <style lang="scss">
-    // 定义可爱粉嫩的主题色
-    $primary-color: #ff85a1; // 柔和的粉色作为主色调
-    $secondary-color: #ffbdc8; // 浅粉色作为辅助色
-    $accent-color: #ffd9e1; // 超浅粉色作为强调色
-    $dark-color: #c25a70; // 深粉色用于图标背景
-    $light-color: #fff9fb; // 浅粉色背景
+    // Claymorphism 儿童教育主题色
+    $primary: #ff85a1;
+    $primary-dark: #c25a70;
+    $primary-light: #ffd9e1;
+    $secondary: #ffbdc8;
+    $bg: #fff0f3;
+    $bg-end: #ffe4ec;
+    $text-main: #3d1a26;
+    $text-sub: #c25a70;
 
     .page {
         min-height: 100vh;
-        // 使用可爱的粉色渐变背景
-        background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+        background: linear-gradient(160deg, $bg 0%, $bg-end 100%);
         display: flex;
         flex-direction: column;
         padding: 32rpx;
         box-sizing: border-box;
         position: relative;
         overflow: hidden;
+        touch-action: manipulation;
     }
 
-    // 添加装饰元素，增加可爱感
+    // Claymorphism 装饰球 — 带内外双阴影
     .decoration {
         position: absolute;
         border-radius: 50%;
-        opacity: 0.6;
         z-index: 0;
     }
 
     .decoration.top-left {
-        top: 5%;
-        left: 5%;
-        width: 200rpx;
-        height: 200rpx;
-        background-color: $accent-color;
+        top: 4%;
+        left: 4%;
+        width: 180rpx;
+        height: 180rpx;
+        background: radial-gradient(circle at 35% 35%, #ffeef3, $secondary);
+        box-shadow:
+            inset -4rpx -4rpx 12rpx rgb(194 90 112 / 0.2),
+            6rpx 6rpx 16rpx rgb(255 133 161 / 0.35);
         animation: float 8s ease-in-out infinite;
     }
 
     .decoration.top-right {
-        top: 10%;
-        right: 8%;
-        width: 150rpx;
-        height: 150rpx;
-        background-color: $secondary-color;
+        top: 8%;
+        right: 6%;
+        width: 130rpx;
+        height: 130rpx;
+        background: radial-gradient(circle at 35% 35%, #fff4e6, #ffc9a0);
+        box-shadow:
+            inset -3rpx -3rpx 10rpx rgb(200 100 50 / 0.2),
+            5rpx 5rpx 14rpx rgb(255 180 120 / 0.35);
         animation: float 10s ease-in-out infinite reverse;
     }
 
     .decoration.bottom-left {
-        bottom: 15%;
-        left: 10%;
-        width: 250rpx;
-        height: 250rpx;
-        background-color: $primary-color;
+        bottom: 14%;
+        left: 8%;
+        width: 220rpx;
+        height: 220rpx;
+        background: radial-gradient(circle at 35% 35%, #e8f4ff, #a8d8ff);
+        box-shadow:
+            inset -5rpx -5rpx 14rpx rgb(50 100 200 / 0.15),
+            7rpx 7rpx 20rpx rgb(100 160 255 / 0.3);
         animation: float 12s ease-in-out infinite;
     }
 
     .decoration.bottom-right {
-        bottom: 8%;
-        right: 5%;
-        width: 180rpx;
-        height: 180rpx;
-        background-color: $accent-color;
+        bottom: 6%;
+        right: 4%;
+        width: 160rpx;
+        height: 160rpx;
+        background: radial-gradient(circle at 35% 35%, #f0ffe8, #b8f0a0);
+        box-shadow:
+            inset -4rpx -4rpx 12rpx rgb(60 160 60 / 0.15),
+            6rpx 6rpx 16rpx rgb(100 200 100 / 0.3);
         animation: float 9s ease-in-out infinite reverse;
     }
 
-    // 浮动动画
     @keyframes float {
-        0% {
+        0%,
+        100% {
             transform: translateY(0) rotate(0deg);
         }
 
         50% {
-            transform: translateY(-30rpx) rotate(5deg);
-        }
-
-        100% {
-            transform: translateY(0) rotate(0deg);
+            transform: translateY(-24rpx) rotate(4deg);
         }
     }
 
     .header {
         text-align: center;
-        margin-top: 60rpx;
+        margin-top: 80rpx;
         margin-bottom: 80rpx;
         position: relative;
         z-index: 1;
     }
 
     .title {
-        font-size: 56rpx; // 更大的字体
-        font-weight: bold;
-        color: $dark-color; // 深粉色标题
-        margin-bottom: 20rpx;
-        text-shadow: 0 4rpx 8rpx rgb(0 0 0 / 0.1);
-        // 添加轻微的动画效果
-        // animation: pulse 3s ease-in-out infinite;
+        font-size: 52rpx;
+        font-weight: 800;
+        color: $text-main;
+        margin-bottom: 16rpx;
+        letter-spacing: 2rpx;
+        text-shadow: 0 3rpx 0 rgb(194 90 112 / 0.2);
     }
 
     .subtitle {
-        font-size: 32rpx;
-        color: $primary-color; // 粉色副标题
+        font-size: 30rpx;
+        color: $text-sub;
         font-weight: 500;
-    }
-
-    // 脉冲动画
-    @keyframes pulse {
-        0%,
-        100% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.03);
-        }
     }
 
     .app-list {
         display: flex;
         flex-wrap: wrap;
-        gap: 32rpx; // 更大的间距
+        gap: 28rpx;
         position: relative;
         z-index: 1;
     }
 
+    // Claymorphism 卡片 — 厚边框 + 双阴影
     .app-item {
-        width: 327rpx; // 更大的卡片
-        height: 327rpx;
-        background: rgb(255 255 255 / 0.95);
-        border-radius: 32rpx; // 更大的圆角
+        width: calc(50% - 14rpx);
+        aspect-ratio: 1;
+        background: #fff;
+        border-radius: 36rpx;
+        border: 4rpx solid $secondary;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 28rpx;
-        box-shadow: 0 12rpx 36rpx rgb(0 0 0 / 0.1);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        gap: 24rpx;
+        box-shadow:
+            inset 0 -4rpx 0 $secondary,
+            0 8rpx 24rpx rgb(255 133 161 / 0.2);
+        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         cursor: pointer;
-        // 添加粉色边框增加可爱感
-        border: 4rpx solid $secondary-color;
         box-sizing: border-box;
+        touch-action: manipulation;
     }
 
-    .app-item:hover {
-        transform: translateY(-12rpx) scale(1.03); // 更强的悬浮效果
-        box-shadow: 0 20rpx 48rpx rgb(0 0 0 / 0.15);
-        border-color: $primary-color;
+    .app-item:active {
+        transform: scale(0.96) translateY(2rpx);
+        box-shadow:
+            inset 0 -2rpx 0 $secondary,
+            0 4rpx 12rpx rgb(255 133 161 / 0.15);
     }
 
     .app-item.disabled {
-        opacity: 0.7;
+        opacity: 0.55;
         cursor: not-allowed;
-        border-color: #ccc;
+        border-color: #e0e0e0;
+        box-shadow:
+            inset 0 -4rpx 0 #e0e0e0,
+            0 6rpx 16rpx rgb(0 0 0 / 0.06);
     }
 
-    .app-item.disabled:hover {
+    .app-item.disabled:active {
         transform: none;
-        box-shadow: 0 12rpx 36rpx rgb(0 0 0 / 0.1);
-        border-color: #ccc;
     }
 
-    // 保持深色图标背景，使白色图标清晰可见
     .app-icon {
-        width: 160rpx; // 更大的图标区域
-        height: 160rpx;
-        background: linear-gradient(
-            135deg,
-            $dark-color 0%,
-            $primary-color 100%
-        ); // 粉色系深色渐变背景
-
-        border-radius: 24rpx;
+        width: 140rpx;
+        height: 140rpx;
+        background: linear-gradient(145deg, $primary-dark 0%, $primary 100%);
+        border-radius: 28rpx;
+        border: 3rpx solid rgb(255 255 255 / 0.6);
         display: flex;
         align-items: center;
         justify-content: center;
-        // 添加图标容器的阴影
         box-shadow:
-            0 6rpx 16rpx rgb(0 0 0 / 0.2),
-            0 0 20rpx rgb(255 255 255 / 0.2);
+            inset 0 3rpx 8rpx rgb(255 255 255 / 0.3),
+            0 6rpx 16rpx rgb(194 90 112 / 0.3);
         overflow: hidden;
 
         .app-icon-image {
-            width: 50%;
-            height: 50%;
-            border-radius: 20rpx;
+            width: 55%;
+            height: 55%;
         }
     }
 
     .app-name {
-        font-size: 36rpx; // 更大的字体
-        font-weight: 600;
-        // 调整文字颜色为深粉色
-        color: $dark-color;
+        font-size: 34rpx;
+        font-weight: 700;
+        color: $text-main;
+        letter-spacing: 1rpx;
     }
 
     .footer {
@@ -268,11 +263,5 @@
         text-align: center;
         position: relative;
         z-index: 1;
-    }
-
-    .copyright {
-        font-size: 24rpx;
-        color: $dark-color;
-        opacity: 0.7;
     }
 </style>

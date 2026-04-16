@@ -271,23 +271,36 @@
 </script>
 
 <style lang="scss">
+    // Claymorphism 主题色 — 与首页统一
+    $primary: #ff85a1;
+    $primary-dark: #c25a70;
+    $secondary: #ffbdc8;
+    $bg: #fff0f3;
+    $bg-end: #ffe4ec;
+    $text-main: #3d1a26;
+    $green: #6ec89b;
+    $green-dark: #3da06a;
+    $blue: #7eb8e0;
+    $blue-dark: #4a8fc0;
+
     .page {
         padding: 32rpx;
         padding-top: 100rpx;
         min-height: 100vh;
-        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-        background-size: cover;
-        background-attachment: fixed;
+        background: linear-gradient(160deg, $bg 0%, $bg-end 100%);
         box-sizing: border-box;
+        touch-action: manipulation;
     }
 
     #character-target-div {
-        border: 4rpx dashed #ff9fb3;
+        border: 4rpx dashed $secondary;
         width: 400rpx;
         height: 400rpx;
         background-color: #fff;
-        border-radius: 20rpx;
-        box-shadow: 0 4rpx 20rpx rgb(255 159 179 / 0.15);
+        border-radius: 24rpx;
+        box-shadow:
+            inset 0 2rpx 6rpx rgb(255 189 200 / 0.2),
+            0 6rpx 20rpx rgb(255 133 161 / 0.15);
 
         svg {
             display: block;
@@ -305,18 +318,17 @@
         .btn-switch {
             width: 60rpx;
             height: 60rpx;
-            opacity: 0.8;
+            opacity: 0.85;
             display: block;
             background-color: #fff;
-            border-radius: 16rpx;
+            border-radius: 20rpx;
+            border: 3rpx solid $secondary;
             padding: 16rpx;
-            box-shadow: 0 2rpx 10rpx rgb(0 0 0 / 0.1);
-            transition: all 0.3s ease;
-
-            // &:hover {
-            //     transform: scale(1.1) rotate($(img-left ? 180 : 0)deg);
-            //     box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.15);
-            // }
+            box-shadow:
+                inset 0 -2rpx 0 $secondary,
+                0 4rpx 10rpx rgb(255 133 161 / 0.15);
+            transition: all 0.2s ease-out;
+            cursor: pointer;
 
             &.img-left {
                 transform: rotate(180deg);
@@ -326,19 +338,31 @@
                 opacity: 0.2;
                 pointer-events: none;
             }
+
+            &:active {
+                transform: scale(0.92);
+
+                &.img-left {
+                    transform: rotate(180deg) scale(0.92);
+                }
+            }
         }
     }
 
     .count-wrapper {
         font-size: 28rpx;
-        color: #ff6b95;
+        color: $primary-dark;
         text-align: center;
-        font-weight: 500;
+        font-weight: 600;
         margin-bottom: 40rpx;
-        background-color: rgb(255 255 255 / 0.8);
+        background: #fff;
         display: inline-block;
-        padding: 8rpx 20rpx;
-        border-radius: 20rpx;
+        padding: 10rpx 28rpx;
+        border-radius: 24rpx;
+        border: 3rpx solid $secondary;
+        box-shadow:
+            inset 0 -2rpx 0 $secondary,
+            0 4rpx 10rpx rgb(255 133 161 / 0.12);
         position: relative;
         left: 50%;
         transform: translateX(-50%);
@@ -354,25 +378,28 @@
         justify-content: center;
         font-size: 32rpx;
         gap: 20rpx;
-        color: rgb(black, 0.85);
+        color: $text-main;
         position: relative;
         margin-bottom: 48rpx;
 
         .word-input {
-            border: 2rpx solid #ffccd5;
-            border-radius: 16rpx;
+            border: 3rpx solid $secondary;
+            border-radius: 20rpx;
             padding: 0 20rpx;
-            height: 80rpx;
+            height: 84rpx;
             box-sizing: border-box;
             flex: 1;
             font-size: 28rpx;
             background-color: #fff;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease-out;
             outline: none;
+            box-shadow: inset 0 2rpx 4rpx rgb(255 189 200 / 0.15);
 
             &:focus {
-                border-color: #ff6b95;
-                box-shadow: 0 0 0 6rpx rgb(255 107 149 / 0.1);
+                border-color: $primary;
+                box-shadow:
+                    inset 0 2rpx 4rpx rgb(255 133 161 / 0.1),
+                    0 0 0 6rpx rgb(255 133 161 / 0.08);
             }
         }
 
@@ -385,35 +412,37 @@
             right: 140rpx;
             width: 80rpx;
             height: 80rpx;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
 
-            &:hover {
-                transform: translateY(-50%) scale(1.1);
+            &:active {
+                transform: translateY(-50%) scale(0.9);
             }
         }
 
         .btn-create {
             font-size: 28rpx;
-            background: linear-gradient(135deg, #ff6b95 0%, #ff8fa3 100%);
-            height: 80rpx;
-            border-radius: 16rpx;
+            background: linear-gradient(145deg, $primary 0%, $primary-dark 100%);
+            height: 84rpx;
+            border-radius: 20rpx;
+            border: 3rpx solid rgb(255 255 255 / 0.5);
             color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 30rpx;
-            font-weight: bold;
-            box-shadow: 0 4rpx 15rpx rgb(255 107 149 / 0.3);
-            transition: all 0.3s ease;
-
-            &:hover {
-                transform: translateY(-2rpx);
-                box-shadow: 0 6rpx 20rpx rgb(255 107 149 / 0.4);
-            }
+            padding: 0 36rpx;
+            font-weight: 700;
+            box-shadow:
+                inset 0 2rpx 4rpx rgb(255 255 255 / 0.3),
+                0 6rpx 16rpx rgb(194 90 112 / 0.3);
+            transition: all 0.2s ease-out;
+            cursor: pointer;
 
             &:active {
-                transform: translateY(0);
-                box-shadow: 0 2rpx 10rpx rgb(255 107 149 / 0.2);
+                transform: scale(0.95) translateY(2rpx);
+                box-shadow:
+                    inset 0 2rpx 4rpx rgb(255 255 255 / 0.2),
+                    0 3rpx 8rpx rgb(194 90 112 / 0.2);
             }
         }
     }
@@ -427,21 +456,25 @@
         margin-bottom: 64rpx;
 
         div {
-            font-size: 26rpx;
-            background: linear-gradient(135deg, #ffedeb 0%, #fff 100%);
-            border: 2rpx solid #ff6b95;
-            padding: 20rpx 40rpx;
-            border-radius: 16rpx;
-            color: #ff6b95;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-size: 28rpx;
+            background: #fff;
+            border: 3rpx solid $secondary;
+            padding: 22rpx 44rpx;
+            border-radius: 24rpx;
+            color: $primary-dark;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow:
+                inset 0 -3rpx 0 $secondary,
+                0 4rpx 12rpx rgb(255 133 161 / 0.15);
+            transition: all 0.2s ease-out;
 
-            // &:hover {
-            //     background: linear-gradient(135deg, #ff6b95 0%, #ff8fa3 100%);
-            //     color: #fff;
-            //     transform: translateY(-2rpx);
-            //     box-shadow: 0 4rpx 15rpx rgb(255 107 149 / 0.3);
-            // }
+            &:active {
+                transform: scale(0.95) translateY(2rpx);
+                box-shadow:
+                    inset 0 -1rpx 0 $secondary,
+                    0 2rpx 6rpx rgb(255 133 161 / 0.1);
+            }
         }
     }
 
@@ -453,73 +486,50 @@
         margin-top: 48rpx;
     }
 
+    // Claymorphism 圆形按钮
     .btn-start {
-        font-size: 34rpx;
-        font-weight: bold;
+        font-size: 32rpx;
+        font-weight: 700;
         width: 200rpx;
         height: 200rpx;
         border-radius: 50%;
-        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-        border: 6rpx solid #fff;
+        background: linear-gradient(145deg, #ffb0c0 0%, $primary 100%);
+        border: 4rpx solid rgb(255 255 255 / 0.6);
         display: flex;
         justify-content: center;
         align-items: center;
         color: #fff;
-        text-shadow: 0 2rpx 4rpx rgb(0 0 0 / 0.2);
+        letter-spacing: 2rpx;
+        text-shadow: 0 2rpx 0 rgb(194 90 112 / 0.3);
         box-shadow:
-            0 10rpx 25rpx rgb(255 154 158 / 0.3),
-            0 0 0 2rpx rgb(255 154 158 / 0.1);
+            inset 0 4rpx 8rpx rgb(255 255 255 / 0.35),
+            inset 0 -4rpx 8rpx rgb(194 90 112 / 0.2),
+            0 8rpx 24rpx rgb(255 133 161 / 0.35);
         cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 
         &.test {
-            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            background: linear-gradient(145deg, #a0e8c0 0%, $green 100%);
+            text-shadow: 0 2rpx 0 rgb(61 160 106 / 0.3);
             box-shadow:
-                0 10rpx 25rpx rgb(132 250 176 / 0.3),
-                0 0 0 2rpx rgb(132 250 176 / 0.1);
+                inset 0 4rpx 8rpx rgb(255 255 255 / 0.35),
+                inset 0 -4rpx 8rpx rgb(61 160 106 / 0.2),
+                0 8rpx 24rpx rgb(110 200 155 / 0.35);
         }
-    }
 
-    .btn-start::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.4), transparent);
-        transition: left 0.5s ease;
-    }
+        &:active {
+            transform: scale(0.93) translateY(2rpx);
+            box-shadow:
+                inset 0 2rpx 4rpx rgb(255 255 255 / 0.2),
+                inset 0 -2rpx 4rpx rgb(194 90 112 / 0.15),
+                0 4rpx 12rpx rgb(255 133 161 / 0.2);
+        }
 
-    .btn-start:hover::before {
-        left: 100%;
-    }
-
-    .btn-start:hover {
-        transform: translateY(-4rpx);
-        box-shadow:
-            0 14rpx 30rpx rgb(255 154 158 / 0.4),
-            0 0 0 2rpx rgb(255 154 158 / 0.15);
-    }
-
-    .btn-start.test:hover {
-        box-shadow:
-            0 14rpx 30rpx rgb(132 250 176 / 0.4),
-            0 0 0 2rpx rgb(132 250 176 / 0.15);
-    }
-
-    .btn-start:active {
-        transform: scale(0.95) translateY(0);
-        box-shadow:
-            0 6rpx 15rpx rgb(255 154 158 / 0.2),
-            0 0 0 2rpx rgb(255 154 158 / 0.1);
-    }
-
-    .btn-start.test:active {
-        box-shadow:
-            0 6rpx 15rpx rgb(132 250 176 / 0.2),
-            0 0 0 2rpx rgb(132 250 176 / 0.1);
+        &.test:active {
+            box-shadow:
+                inset 0 2rpx 4rpx rgb(255 255 255 / 0.2),
+                inset 0 -2rpx 4rpx rgb(61 160 106 / 0.15),
+                0 4rpx 12rpx rgb(110 200 155 / 0.2);
+        }
     }
 </style>
