@@ -30,6 +30,12 @@
 			"style": {
 				"navigationBarTitleText": "舒尔特专注力"
 			}
+		},
+		{
+			"path": "pages/game/maze",
+			"style": {
+				"navigationBarTitleText": "数字迷宫"
+			}
 		}
 	],
 	"networkTimeout": {

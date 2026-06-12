@@ -59,6 +59,11 @@
             path: '/pages/game/shulte',
             icon: '/static/images/shulte-icon.png',
         },
+        {
+            name: '数字迷宫',
+            path: '/pages/game/maze',
+            icon: '/static/images/maze-icon.png',
+        },
     ];
 
     const navigateTo = (path: string) => {
@@ -86,7 +91,7 @@
         background: linear-gradient(160deg, $bg 0%, $bg-end 100%);
         display: flex;
         flex-direction: column;
-        padding: 32rpx;
+        padding: 20rpx;
         box-sizing: border-box;
         position: relative;
         overflow: hidden;
@@ -161,50 +166,51 @@
 
     .header {
         text-align: center;
-        margin-top: 80rpx;
-        margin-bottom: 80rpx;
+        margin-top: 60rpx;
+        margin-bottom: 60rpx;
         position: relative;
         z-index: 1;
     }
 
     .title {
-        font-size: 52rpx;
+        font-size: 40rpx;
         font-weight: 800;
         color: $text-main;
-        margin-bottom: 16rpx;
-        letter-spacing: 2rpx;
+        margin-bottom: 12rpx;
+        letter-spacing:1rpx;
         text-shadow: 0 3rpx 0 rgb(194 90 112 / 0.2);
     }
 
     .subtitle {
-        font-size: 30rpx;
+        font-size: 24rpx;
         color: $text-sub;
         font-weight: 500;
     }
 
     .app-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 28rpx;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20rpx;
+        padding: 0 16rpx;
         position: relative;
         z-index: 1;
     }
 
     // Claymorphism 卡片 — 厚边框 + 双阴影
     .app-item {
-        width: calc(50% - 14rpx);
         aspect-ratio: 1;
         background: #fff;
-        border-radius: 36rpx;
-        border: 4rpx solid $secondary;
+        border-radius: 28rpx;
+        border: 3rpx solid $secondary;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 24rpx;
+        gap: 12rpx;
+        padding: 12rpx 8rpx;
         box-shadow:
-            inset 0 -4rpx 0 $secondary,
-            0 8rpx 24rpx rgb(255 133 161 / 0.2);
+            inset 0 -3rpx 0 $secondary,
+            0 6rpx 16rpx rgb(255 133 161 / 0.2);
         transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         cursor: pointer;
         box-sizing: border-box;
@@ -215,7 +221,7 @@
         transform: scale(0.96) translateY(2rpx);
         box-shadow:
             inset 0 -2rpx 0 $secondary,
-            0 4rpx 12rpx rgb(255 133 161 / 0.15);
+            0 4rpx 10rpx rgb(255 133 161 / 0.15);
     }
 
     .app-item.disabled {
@@ -223,8 +229,8 @@
         cursor: not-allowed;
         border-color: #e0e0e0;
         box-shadow:
-            inset 0 -4rpx 0 #e0e0e0,
-            0 6rpx 16rpx rgb(0 0 0 / 0.06);
+            inset 0 -3rpx 0 #e0e0e0,
+            0 4rpx 12rpx rgb(0 0 0 / 0.06);
     }
 
     .app-item.disabled:active {
@@ -232,30 +238,33 @@
     }
 
     .app-icon {
-        width: 140rpx;
-        height: 140rpx;
+        width: 96rpx;
+        height: 96rpx;
         background: linear-gradient(145deg, $primary-dark 0%, $primary 100%);
-        border-radius: 28rpx;
-        border: 3rpx solid rgb(255 255 255 / 0.6);
+        border-radius: 22rpx;
+        border: 2rpx solid rgb(255 255 255 / 0.6);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            inset 0 3rpx 8rpx rgb(255 255 255 / 0.3),
-            0 6rpx 16rpx rgb(194 90 112 / 0.3);
+            inset 0 2rpx 6rpx rgb(255 255 255 / 0.3),
+            0 4rpx 12rpx rgb(194 90 112 / 0.3);
         overflow: hidden;
+        flex-shrink: 0;
 
         .app-icon-image {
-            width: 55%;
-            height: 55%;
+            width: 60%;
+            height: 60%;
         }
     }
 
     .app-name {
-        font-size: 34rpx;
+        font-size: 24rpx;
         font-weight: 700;
         color: $text-main;
         letter-spacing: 1rpx;
+        text-align: center;
+        line-height: 1.2;
     }
 
     .footer {
