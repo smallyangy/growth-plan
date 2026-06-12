@@ -130,11 +130,14 @@ const STORAGE_KEY = 'maze_best';
 
 复用舒尔特方格的 `loadBest` / `saveBest` 模式（不抽象为公共模块，按 YAGNI）。
 
-## 视觉设计（与舒尔特方格保持一致）
+## 视觉设计（与舒尔特方格保持一致 + 迷宫拖拽专项）
 
-- Claymorphism，圆角 24rpx
+### 基础规范（复用舒尔特）
+
+- Claymorphism，圆角 16-24rpx
 - 主色 `#ff85a1`，强调橙 `#F97316`
-- 难度色：入门=薄荷绿、标准=天空蓝、双色=暖橙
+- 难度色：入门=薄荷绿 `#98FF98`、标准=天空蓝 `#ADD8E6`、双色=暖橙 `#FFD3B6`
+- 双色模式的路径色：红 `#EF4444` / 蓝 `#3B82F6`
 - 边框 `4rpx solid #fff`
 - 双层阴影（inset light + inset dark + outer drop）
 - `touch-action: manipulation/none`
@@ -142,6 +145,112 @@ const STORAGE_KEY = 'maze_best';
 - 难度切换器 = 3 张卡片（与舒尔特一致）
 - 计时器胶囊（与舒尔特一致）
 - 完成弹窗 = 居中卡片 + SVG 奖章 + 入场 scale 动画
+
+### 迷宫单元格参数
+
+| 元素 | 5×5 模式 | 3×3 模式 |
+|------|----------|----------|
+| 单元尺寸 | 100rpx × 100rpx | 140rpx × 140rpx |
+| 单元间距 | 8rpx | 12rpx |
+| 数字字号 | 48rpx | 72rpx |
+| 圆角 | 16rpx | 24rpx |
+| 起点/终点 | 路径样式 + 内部小图标（🏁/🏆 SVG） | 同 |
+
+### 双层阴影配方
+
+```css
+box-shadow:
+    inset -2rpx -2rpx 6rpx rgba(255,255,255,0.6),
+    inset 2rpx 2rpx 6rpx rgba(194,90,112,0.15),
+    4rpx 4rpx 12rpx rgba(194,90,112,0.18);
+```
+
+### 拖拽视觉反馈（4 个状态）
+
+**a. 当前所在格：粉色光环**
+```css
+.cell--cursor::after {
+    content: '';
+    position: absolute;
+    inset: -6rpx;
+    border-radius: inherit;
+    border: 4rpx solid $primary;
+    box-shadow: 0 0 16rpx rgba(255, 133, 161, 0.6);
+    pointer-events: none;
+    animation: glow 1s ease-in-out infinite;
+}
+```
+
+**b. 已走路径：粉色痕迹（SVG overlay）**
+- 单元格上方叠一个 absolute 的 `<svg>` 元素
+- 监听 currentTarget 变化时，从上一点中心 → 当前点中心画 8rpx 宽粉色线条
+- 用 cubic-bezier 缓动，duration 200ms
+
+**c. 红色脉冲（错点）**
+```css
+@keyframes pulseRed {
+    0%   { background: linear-gradient(135deg, #fff5f8, #ffe4ec); }
+    30%  { background: linear-gradient(135deg, #ffe0e0, #ffb8b8); }
+    100% { background: linear-gradient(135deg, #fff5f8, #ffe4ec); }
+}
+.cell--wrong { animation: pulseRed 0.5s ease-out; }
+```
+
+**d. 绿色脉冲（对点）**
+```css
+@keyframes pulseGreen {
+    0%   { background: linear-gradient(135deg, #fff5f8, #ffe4ec); }
+    30%  { background: linear-gradient(135deg, #d8ffe0, #a8f0b8); }
+    100% { background: linear-gradient(135deg, #fff5f8, #ffe4ec); }
+}
+.cell--correct { animation: pulseGreen 0.5s ease-out; }
+```
+
+`prefers-reduced-motion` 时全部降为即时切换。
+
+### 三大区布局
+
+```
+┌─────────────────────────────────┐
+│  🏠 顶栏 (8%)                    │  ← 返回首页 icon
+├─────────────────────────────────┤
+│  难度切换器 (18%)                │  ← 3 张卡片（与舒尔特一致）
+├─────────────────────────────────┤
+│  迷宫主区 (62%)                  │  ← 5×5 或 3×3 grid
+│  ⏱ 浮动计时器 (右上角覆盖)        │  ← 半透明胶囊
+│  路径 overlay (absolute)         │  ← SVG 粉色痕迹
+├─────────────────────────────────┤
+│  底部控制 (12%)                  │  ← 最佳成绩 + 开始/重置
+└─────────────────────────────────┘
+```
+
+### 移动端响应式
+
+| 视口 | 5×5 单元 | 3×3 单元 |
+|------|---------|---------|
+| iPhone SE (375px) | 60rpx | 80rpx |
+| iPhone 14 (390px) | 68rpx | 92rpx |
+| iPhone 14 Pro Max (430px) | 76rpx | 100rpx |
+| iPad mini (768px) | 100rpx | 140rpx |
+
+**拖拽准确性关键点：**
+- `touch-action: none` 在 grid 容器上
+- Vue 3 修饰符 `@touchmove.prevent` 阻止默认
+- `overscroll-behavior: contain` 防止 iOS 弹性滚动
+- `e.preventDefault()` 在 touchstart 也调用一次（双保险）
+- 监听 `touchend` 而非 `mouseup`
+
+**误触避免：**
+- 必须触摸 number 1 才能开始（`gameState === 'idle' → 'dragging'`）
+- 触摸普通路径/起点/终点不开始游戏
+- `@touchstart` 在 number 1 之外触发 → 忽略
+
+### 不使用 emoji
+按 ui-ux-pro-max 硬规则，用 SVG 替代：
+- ⏱ 计时器 → 圆形 + 时针分针 SVG
+- 🏁 起点 → 三角旗 SVG
+- 🏆 终点 → 奖杯 SVG
+- 🏅 完成弹窗奖章 → 复用舒尔特 SVG
 
 ## 文件改动
 
