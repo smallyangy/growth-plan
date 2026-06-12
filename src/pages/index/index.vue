@@ -55,9 +55,9 @@
             icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100837439.png',
         },
         {
-            name: '敬请期待',
-            path: '',
-            icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100838290.png',
+            name: '舒尔特专注力',
+            path: '/pages/game/shulte',
+            icon: '/static/images/shulte-icon.png',
         },
     ];
 

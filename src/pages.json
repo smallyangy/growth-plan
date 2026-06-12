@@ -24,6 +24,12 @@
 			"style": {
 				"navigationBarTitleText": "基础运算"
 			}
+		},
+		{
+			"path": "pages/game/shulte",
+			"style": {
+				"navigationBarTitleText": "舒尔特专注力"
+			}
 		}
 	],
 	"networkTimeout": {

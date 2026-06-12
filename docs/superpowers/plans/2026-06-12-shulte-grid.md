@@ -10,15 +10,29 @@
 
 **关于测试：** 仓库当前无测试体系（无 jest/vitest 配置），按需求 YAGNI 不引入。每步通过"类型检查 + 手动跑 dev 验证"保证正确性。
 
+**关于提交：** 用户要求本次开发**不做任何 commit**。所有任务中标注 `git commit` 的步骤**全部跳过**，subagent 不要执行 commit 动作，由用户在审阅后自己决定提交时机。
+
 ---
 
 ## 文件清单
 
 | 操作 | 路径 | 说明 |
 |------|------|------|
-| 新增 | `src/pages/game/shulte/index.vue` | 主页面，约 450 行 |
+| 新增 | `src/pages/game/shulte.vue` | 主页面，约 763 行（含格式化后） |
+| 新增 | `src/static/images/shulte-icon.png` | 首页入口图标（MiniMax 文生图生成） |
 | 修改 | `src/pages.json` | 在 pages 数组中插入新路由 |
-| 修改 | `src/pages/index/index.vue` | appList 第 4 项替换为「舒尔特专注力」 |
+| 修改 | `src/pages/index/index.vue` | appList 第 4 项替换为「舒尔特专注力」并换图标 |
+| 修改 | `.gitignore` | 添加 `docs/minimax/key` |
+
+> **重要修正（实施时发现）：** 最初 Task 2 创建了 `src/pages/game/shulte/index.vue`（子目录形式），但 `pages.json` 的 `path: "pages/game/shulte"` 不带 `/index` 后缀，被 UniApp/Vite 解析为单文件 `pages/game/shulte.vue`。Task 10 验证时发现 dev server 报 `Failed to resolve import "./pages/game/shulte.vue"`，已将文件移动到正确位置。
+
+> 本项目 pages.json 路径约定：
+> - `path: "pages/word/index"` → `src/pages/word/index.vue`（子目录 + `/index`）
+> - `path: "pages/math/base"` → `src/pages/math/base.vue`（单文件，无 `/index`）
+> - `path: "pages/game/linggu"` → `src/pages/game/linggu.vue`（单文件，无 `/index`）
+> - `path: "pages/game/shulte"` → `src/pages/game/shulte.vue`（单文件，无 `/index`）
+
+> **规律：** 当 path 不带 `/index` 后缀时，UniApp 期望一个单文件 `.vue`；当 path 带 `/index` 时，期望子目录里的 `index.vue`。
 
 ---
 
@@ -56,7 +70,7 @@
 },
 ```
 
-改为：
+改为（图标先用占位，Task 1.5 会换成文生图生成的图标）：
 
 ```typescript
 {
@@ -68,12 +82,86 @@
 
 预期：首页第 4 张卡片可点击，跳转到新页面。
 
-- [ ] **Step 3: 提交**
+- [ ] **Step 3: 提交（跳过）**
+
+> 用户要求不做 commit，此步跳过。
+
+---
+
+## Task 1.5: 生成舒尔特方格专属首页图标
+
+**Files:**
+- Create: `src/static/images/shulte-icon.png`
+- Modify: `src/pages/index/index.vue`（使用新图标）
+
+- [ ] **Step 1: 调用 MiniMax 文生图 API 生成图标**
 
 ```bash
-git add src/pages.json src/pages/index/index.vue
-git commit -m "feat(shulte): 注册舒尔特方格路由和首页入口"
+mkdir -p src/static/images
+KEY=$(cat docs/minimax/key | tr -d '\n')
+
+curl -s https://api.minimaxi.com/v1/image_generation \
+  -H "Authorization: Bearer $KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "image-01",
+    "prompt": "App icon for a children Schulte Grid attention training game. Soft pink pastel background. A 5x5 grid of rounded squares in pastel colors (mint, sky blue, peach, cream). The number 1 in the center cell is highlighted in pink. Cute 3D claymorphism style, simple, clean, kid-friendly, no text. Square format.",
+    "aspect_ratio": "1:1",
+    "n": 1,
+    "response_format": "url",
+    "prompt_optimizer": true
+  }' > /tmp/shulte_icon_response.json
 ```
+
+预期：响应 `base_resp.status_code` 为 0，`data.image_urls` 数组含 1 个 URL。
+
+- [ ] **Step 2: 下载图片到项目**
+
+```bash
+URL=$(cat /tmp/shulte_icon_response.json | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['image_urls'][0])")
+curl -s -o src/static/images/shulte-icon.png "$URL"
+ls -lh src/static/images/shulte-icon.png
+file src/static/images/shulte-icon.png
+```
+
+预期：文件存在，大小约 100-500KB，`file` 命令显示 PNG 格式。
+
+- [ ] **Step 3: 检查 key 文件未被提交到 git**
+
+```bash
+git check-ignore docs/minimax/key
+# 应输出：docs/minimax/key
+# 如果没被忽略，必须现在加入 .gitignore
+grep -q "docs/minimax" .gitignore || echo "docs/minimax/key" >> .gitignore
+```
+
+- [ ] **Step 4: 更新首页 appList 引用新图标**
+
+打开 `src/pages/index/index.vue`，将第 4 项 `icon` 改为：
+
+```typescript
+{
+    name: '舒尔特专注力',
+    path: '/pages/game/shulte',
+    icon: '/static/images/shulte-icon.png',
+},
+```
+
+- [ ] **Step 5: 验证首页能加载新图标**
+
+启动 dev：
+
+```bash
+npm run dev
+```
+
+浏览器打开首页，检查"舒尔特专注力"卡片的图标是否正确显示（粉色背景 + 5×5 网格）。
+
+预期：图标显示正常，无 404。
+
+- [ ] **Step 6: 提交（跳过）**
+
+> 用户要求不做 commit，此步跳过。
 
 ---
 
@@ -151,12 +239,9 @@ npm run type-check
 
 预期：无错误。
 
-- [ ] **Step 3: 提交**
+- [ ] **Step 3: 提交（跳过）**
 
-```bash
-git add src/pages/game/shulte/index.vue
-git commit -m "feat(shulte): 创建页面骨架，定义数据模型和工具函数"
-```
+> 用户要求不做 commit，此步跳过。
 
 ---
 
@@ -206,9 +291,10 @@ git commit -m "feat(shulte): 创建页面骨架，定义数据模型和工具函
     function handleCellClick(cell: CellItem) {
         if (gameState.value !== 'playing') return;
         const cfg = DIFFICULTY_CONFIG[currentDifficulty.value];
-        const expected = cfg.reverse
-            ? cfg.max + 1 - currentTarget.value // 反序：先点 max
-            : currentTarget.value;
+        const expected = currentTarget.value;
+        // 注：原本写为 cfg.reverse ? cfg.max + 1 - currentTarget.value : currentTarget.value
+        // 但 currentTarget 初始值在 reverse 模式下是 cfg.max，所以 expected 直接等于 currentTarget 即可。
+        // Task 3 实施时 implementer 发现了这个 bug 并修复。
 
         if (cell.num === expected) {
             cell.status = 'correct';
@@ -277,12 +363,9 @@ npm run type-check
 
 预期：会报 `saveBest` 未定义（这是预期，下个 Task 解决，先继续）。先 commit。
 
-- [ ] **Step 4: 提交**
+- [ ] **Step 4: 提交（跳过）**
 
-```bash
-git add src/pages/game/shulte/index.vue
-git commit -m "feat(shulte): 实现开始/重置/点击/完成核心逻辑"
-```
+> 用户要求不做 commit，此步跳过。
 
 ---
 
@@ -341,12 +424,9 @@ npm run type-check
 
 预期：无错误。
 
-- [ ] **Step 3: 提交**
+- [ ] **Step 3: 提交（跳过）**
 
-```bash
-git add src/pages/game/shulte/index.vue
-git commit -m "feat(shulte): 添加最佳成绩本地持久化"
-```
+> 用户要求不做 commit，此步跳过。
 
 ---
 
@@ -400,12 +480,9 @@ git commit -m "feat(shulte): 添加最佳成绩本地持久化"
 </template>
 ```
 
-- [ ] **Step 3: 提交**
+- [ ] **Step 3: 提交（跳过）**
 
-```bash
-git add src/pages/game/shulte/index.vue
-git commit -m "feat(shulte): 添加难度切换器 UI"
-```
+> 用户要求不做 commit，此步跳过。
 
 ---
 
@@ -501,13 +578,13 @@ git commit -m "feat(shulte): 添加难度切换器 UI"
     }
 ```
 
-- [ ] **Step 3: 类型检查 + commit**
+- [ ] **Step 3: 类型检查 + 提交（跳过）**
 
 ```bash
 npm run type-check
-git add src/pages/game/shulte/index.vue
-git commit -m "feat(shulte): 渲染主网格、计时器、开始/重置按钮"
 ```
+
+> 用户要求不做 commit，git add/commit 跳过。
 
 预期：type-check 无错误。
 
@@ -567,13 +644,13 @@ git commit -m "feat(shulte): 渲染主网格、计时器、开始/重置按钮"
 
 （提示：暂用 emoji 字符；Task 9 视觉打磨时换成 SVG。）
 
-- [ ] **Step 3: 类型检查 + commit**
+- [ ] **Step 3: 类型检查 + 提交（跳过）**
 
 ```bash
 npm run type-check
-git add src/pages/game/shulte/index.vue
-git commit -m "feat(shulte): 添加完成弹窗和再来一局/换难度按钮"
 ```
+
+> 用户要求不做 commit，git add/commit 跳过。
 
 ---
 
@@ -918,12 +995,9 @@ npm run dev
 
 预期：浏览器打开 `http://localhost:8092/growth-plan/`，首页"舒尔特专注力"入口可点击，进入页面，3 张难度卡片渲染，点击"开始"出现 5×5 数字，点击数字有颜色反馈，计时器走动，完成后弹窗出现。
 
-- [ ] **Step 3: 提交**
+- [ ] **Step 3: 提交（跳过）**
 
-```bash
-git add src/pages/game/shulte/index.vue
-git commit -m "feat(shulte): Claymorphism 视觉风格与交互动画"
-```
+> 用户要求不做 commit，此步跳过。
 
 ---
 
@@ -989,15 +1063,15 @@ git commit -m "feat(shulte): Claymorphism 视觉风格与交互动画"
     }
 ```
 
-- [ ] **Step 4: 类型检查 + 提交**
+- [ ] **Step 4: 类型检查**
 
 ```bash
 npm run type-check
-git add src/pages/game/shulte/index.vue
-git commit -m "style(shulte): emoji 图标替换为 SVG（遵循 ui-ux-pro-max 反 emoji 规则）"
 ```
 
-预期：type-check 通过。
+预期：无错误。
+
+> 用户要求不做 commit，git add/commit 跳过。
 
 ---
 
@@ -1049,15 +1123,9 @@ npm run lint
 
 预期：无错误或仅有 pre-existing warnings。
 
-- [ ] **Step 6: 提交（如有改动）**
+- [ ] **Step 6: 提交（跳过）**
 
-```bash
-git status
-# 如果有 lint auto-fix 改动：
-git add -A
-git commit -m "chore(shulte): 验证后的小修整"
-# 如果无改动：跳过
-```
+> 用户要求不做 commit，此步跳过。`git status` 可用于查看未提交改动。
 
 ---
 
