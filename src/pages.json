@@ -36,6 +36,12 @@
 			"style": {
 				"navigationBarTitleText": "数字迷宫"
 			}
+		},
+		{
+			"path": "pages/game/digit-span",
+			"style": {
+				"navigationBarTitleText": "数字复述"
+			}
 		}
 	],
 	"networkTimeout": {

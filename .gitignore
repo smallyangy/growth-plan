@@ -27,3 +27,5 @@ docs/minimax/key
 # 改为以下内容（如果您使用的是bash）
 # !/.gitignore
 # echo "/dist" >> .gitignore.local
+
+.playwright-mcp

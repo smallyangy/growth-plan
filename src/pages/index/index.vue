@@ -64,6 +64,11 @@
             path: '/pages/game/maze',
             icon: '/static/images/maze-icon.png',
         },
+        {
+            name: '数字复述',
+            path: '/pages/game/digit-span',
+            icon: '/static/images/digit-span-icon.png',
+        },
     ];
 
     const navigateTo = (path: string) => {
