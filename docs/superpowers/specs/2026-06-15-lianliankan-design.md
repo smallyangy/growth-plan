@@ -42,7 +42,7 @@
 |---|---|
 | `src/pages/game/lianliankan.vue` | 游戏主页面：主题/关卡选择 + 棋盘渲染 + 点击交互 + 完成动效 |
 | `src/composables/useLianliankanGame.ts` | 核心算法：棋盘生成、2 拐角路径查找、合法性校验、胜负判定 |
-| `src/data/lianliankanThemeSpecs.ts` | 4 套主题的生成规格（id / 中文名 / prompt），≥32 条/主题 |
+| `src/data/lianliankanThemeSpecs.ts` | 4 套主题的**类型定义**（仅 TS 类型与导出类型名） |
 | `src/data/lianliankanThemes.ts` | 运行时主题数据：`Tile[]`，`image` 指向已下载的本地 PNG |
 | `src/data/lianliankanLevels.ts` | 3 档关卡配置（4×4 / 6×6 / 8×8） |
 | `src/static/lianliankan/{theme}/{id}.png` | 生成下载的图片（每主题 ≥32 张，进 git） |
@@ -305,7 +305,8 @@ STATE: 'done'      全部消除后
 
 | 文件 | 内容 | 是否进 git |
 |---|---|---|
-| `src/data/lianliankanThemeSpecs.ts` | 生成规格：`{id, label, prompt}`，每主题 ≥32 条 | ✅ |
+| `src/data/lianliankanThemeSpecs.ts` | 仅 TS 类型定义（ThemeSpec、ItemSpec） | ✅ |
+| `src/data/lianliankanThemeSpecs.json` | 生成规格数据：`{id, name, icon, items[]}`，每主题 ≥32 条 | ✅ |
 | `src/data/lianliankanThemes.ts` | 运行时数据：`Tile[]`，`image` 是生成后填入的本地路径 | ✅ |
 | `src/static/lianliankan/{theme}/{id}.png` | 生成下载的图片 | ✅ |
 | `scripts/generate-lianliankan-assets.mjs` | Node 脚本（开发时跑） | ✅ |
@@ -313,29 +314,34 @@ STATE: 'done'      全部消除后
 
 ### 主题生成规格示例
 
-```ts
-// src/data/lianliankanThemeSpecs.ts
-export interface ThemeSpec {
-  id: 'fruit' | 'animal' | 'transport' | 'plant';
-  name: string;
-  icon: string;
-  items: Array<{ id: string; label: string; prompt: string }>;
-}
+**类型定义**（`src/data/lianliankanThemeSpecs.ts`，仅 TS 类型）：
 
-export const THEME_SPECS: ThemeSpec[] = [
-  {
-    id: 'fruit',
-    name: '水果',
-    icon: '🍎',
-    items: [
-      { id: 'apple',  label: '苹果', prompt: 'A single cute cartoon apple, flat icon style, white background, child-friendly, centered, no text, no watermark' },
-      { id: 'banana', label: '香蕉', prompt: 'A single cute cartoon banana, flat icon style, white background, child-friendly, centered, no text, no watermark' },
-      // ... ≥32 条
-    ],
-  },
-  // animal / transport / plant 同结构
-];
+```ts
+export type ThemeId = 'fruit' | 'animal' | 'transport' | 'plant';
+export interface ItemSpec { id: string; label: string; prompt: string; }
+export interface ThemeSpec { id: ThemeId; name: string; icon: string; items: ItemSpec[]; }
+export interface ThemeSpecsFile { themes: ThemeSpec[]; }
 ```
+
+**数据文件**（`src/data/lianliankanThemeSpecs.json`，脚本与 TS 都能直接读）：
+
+```json
+{
+  "themes": [
+    {
+      "id": "fruit",
+      "name": "水果",
+      "icon": "🍎",
+      "items": [
+        { "id": "apple",  "label": "苹果", "prompt": "A single cute cartoon apple, flat icon style, white background, child-friendly, centered, no text, no watermark" },
+        { "id": "banana", "label": "香蕉", "prompt": "A single cute cartoon banana, flat icon style, white background, child-friendly, centered, no text, no watermark" }
+      ]
+    }
+  ]
+}
+```
+
+> 用 `.json` 而非 `.ts` 的原因：Node 18 无法直接 `import` `.ts`（需 tsx/ts-node loader），JSON 双端都能直接读，零额外依赖。`.ts` 文件仅保留类型供 TS 在 `lianliankanThemes.ts` 与 `useLianliankanGame.ts` 中使用。
 
 ### 运行时数据（脚本生成后）
 
@@ -361,7 +367,9 @@ export const THEMES: Theme[] = [
 ```js
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { THEME_SPECS } from '../src/data/lianliankanThemeSpecs.ts';
+
+const SPECS_PATH = 'src/data/lianliankanThemeSpecs.json';
+const SPECS = JSON.parse(await fs.readFile(SPECS_PATH, 'utf8'));
 
 const KEY = (await fs.readFile('docs/minimax/key', 'utf8')).trim();
 const URL_API = 'https://api.minimaxi.com/v1/image_generation';
@@ -421,7 +429,7 @@ async function download(url, dest) {
 
 // 4) 主流程：每个 theme 单独跑完再跑下一个
 const failed = [];
-for (const spec of THEME_SPECS) {
+for (const spec of SPECS.themes) {
   console.log(`\n=== theme: ${spec.name} (${spec.items.length} items) ===`);
   await runWithPool(spec.items, CONCURRENCY, async (item) => {
     const dest = `src/static/lianliankan/${spec.id}/${item.id}.png`;
@@ -546,7 +554,8 @@ console.log(`\nDone. ${failed.length} failed.`);
 ## 9. 完成的检查清单（实施前自验）
 
 - [ ] `src/composables/useLianliankanGame.ts` 导出 `generateBoard` 和 `findPath` 为具名 export
-- [ ] `src/data/lianliankanThemeSpecs.ts` 4 个主题，每个 ≥ 32 个 item
+- [ ] `src/data/lianliankanThemeSpecs.json` 4 个主题，每个 ≥ 32 个 item
+- [ ] `src/data/lianliankanThemeSpecs.ts` 含 TS 类型定义（ThemeSpec / ItemSpec）
 - [ ] `scripts/generate-lianliankan-assets.mjs` 可运行
 - [ ] `npm run gen:lianliankan` 执行完成，128 张 PNG 已下载到 `src/static/lianliankan/`
 - [ ] `src/data/lianliankanThemes.ts` 已由脚本生成
