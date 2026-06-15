@@ -91,6 +91,7 @@ interface Round {
     groups: Group[];                  // 固定 3 组
     currentGroupIndex: number;
     selectedCharIndex: number | null;  // 当前点中的字(高亮)
+    selectedAt: number | null;          // 字被选中的时间戳(进阶 1秒/字 计时用)
     remainingMs: number;               // 本组剩余时间(ms)
     restRemainingMs: number;           // 组间休息剩余(ms)
 }
@@ -163,9 +164,13 @@ let timerId: number | null = null;
 timerId = setInterval(() => {
     if (round.value.state === 'group-playing') {
         round.value.remainingMs -= 100;
-        // 进阶 1秒/字 单独检查(在 selectedCharIndex 上)
-        if (round.value.selectedCharIndex !== null) {
-            // 进阶模式下,记录选中时间,超过 1000ms 自动标 skipped
+        // 进阶 1秒/字 单独检查
+        if (
+            round.value.selectedCharIndex !== null &&
+            round.value.selectedAt !== null &&
+            Date.now() - round.value.selectedAt >= 1000
+        ) {
+            handleCharTimeout();  // 当前选中字超时,标 skipped
         }
         if (round.value.remainingMs <= 0) {
             handleGroupTimeout();  // 未答全标 skipped,进入 group-rest
