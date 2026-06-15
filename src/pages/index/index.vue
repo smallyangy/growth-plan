@@ -69,6 +69,16 @@
             path: '/pages/game/digit-span',
             icon: '/static/images/digit-span-icon.png',
         },
+        {
+            name: 'Stroop 颜色冲突',
+            path: '/pages/game/stroop',
+            icon: '/static/images/stroop-icon.png',
+        },
+        {
+            name: '敬请期待',
+            path: '',
+            icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100838290.png',
+        },
     ];
 
     const navigateTo = (path: string) => {

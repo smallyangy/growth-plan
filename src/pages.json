@@ -42,6 +42,12 @@
 			"style": {
 				"navigationBarTitleText": "数字复述"
 			}
+		},
+		{
+			"path": "pages/game/stroop",
+			"style": {
+				"navigationBarTitleText": "Stroop 颜色冲突"
+			}
 		}
 	],
 	"networkTimeout": {
