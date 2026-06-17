@@ -48,6 +48,12 @@
 			"style": {
 				"navigationBarTitleText": "Stroop 颜色冲突"
 			}
+		},
+		{
+			"path": "pages/game/lianliankan",
+			"style": {
+				"navigationBarTitleText": "连连看"
+			}
 		}
 	],
 	"networkTimeout": {

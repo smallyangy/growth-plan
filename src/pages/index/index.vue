@@ -75,6 +75,11 @@
             icon: '/static/images/stroop-icon.png',
         },
         {
+            name: '连连看',
+            path: '/pages/game/lianliankan',
+            icon: '/static/images/lianliankan-icon.png',
+        },
+        {
             name: '敬请期待',
             path: '',
             icon: 'https://smallyangy.github.io/myImgs/docImgs/202510100838290.png',
